@@ -12,13 +12,13 @@ const PORT = 3000;
 // Enable proxy trust if behind something like Nginx
 app.set('trust proxy', false);
 app.use(helmet());
-app.use(ipfilter(ips, { mode: 'allow' }))
+// app.use(ipfilter(ips, { mode: 'allow' }))
 
 // Middleware to validate allowed IP
 function ipValidator(req, res, next) {
   console.log('ipValidator =>', req.headers);
-
-  const forwarded = req.headers['x-forwarded-for'];
+// make it real ip filter
+  const forwarded = req.headers['x-real-ip'];
   const ip = typeof forwarded === 'string'
     ? forwarded.split(',')[0].trim()
     : req.socket.remoteAddress;
@@ -39,7 +39,7 @@ function ipValidator(req, res, next) {
 }
 
 // Apply IP validation middleware
-// app.use(ipValidator);
+app.use(ipValidator);
 
 // Test route
 app.get('/', (req, res) => {
