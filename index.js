@@ -1,9 +1,11 @@
 const express = require('express');
+const helmet = require('helmet');
 const app = express();
 const PORT = 3000;
 
 // Enable proxy trust if behind something like Nginx
-app.set('trust proxy', true);
+app.set('trust proxy', false);
+app.use(helmet());
 
 // Middleware to validate allowed IP
 function ipValidator(req, res, next) {
