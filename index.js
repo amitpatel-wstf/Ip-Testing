@@ -1,11 +1,18 @@
 const express = require('express');
 const helmet = require('helmet');
+
+const ipfilter = require('express-ipfilter').IpFilter
+
+// Deny the following IPs
+const ips = ['127.0.0.1', '192.168.1.28', '106.219.155.126', '2401:4900:8841:fa80:419c:e43f:75b2:7f2a']
+
 const app = express();
 const PORT = 3000;
 
 // Enable proxy trust if behind something like Nginx
 app.set('trust proxy', false);
 app.use(helmet());
+app.use(ipfilter(ips, { mode: 'allow' }))
 
 // Middleware to validate allowed IP
 function ipValidator(req, res, next) {
@@ -32,7 +39,7 @@ function ipValidator(req, res, next) {
 }
 
 // Apply IP validation middleware
-app.use(ipValidator);
+// app.use(ipValidator);
 
 // Test route
 app.get('/', (req, res) => {
