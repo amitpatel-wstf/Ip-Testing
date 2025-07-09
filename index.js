@@ -18,10 +18,11 @@ function ipValidator(req, res, next) {
 
   // Define your allowed IP here (adjust as needed)
   const allowedIP = '2401:4900:8841:fa80:419c:e43f:75b2:7f2a';
-  const allowedIP2 = "192.168.1.28"
+  const allowedIP2 = "192.168.1.28";
+  const allowedIP3 = "106.219.155.126";
 
   // Check direct or IPv6-compatible version
-  if (ip === allowedIP || ip === `::ffff:${allowedIP}` || ip === allowedIP2 || ip === `::ffff:${allowedIP2}`) {
+  if (ip === allowedIP || ip === `::ffff:${allowedIP}` || ip === allowedIP2 || ip === `::ffff:${allowedIP2}` || ip === allowedIP3 || ip === `::ffff:${allowedIP3}`) {
     next();
   } else {
     res.status(403).json({ message: 'Forbidden: IP not allowed', ip: ip });
