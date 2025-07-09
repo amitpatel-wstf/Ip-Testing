@@ -24,7 +24,7 @@ function ipValidator(req, res, next) {
   if (ip === allowedIP || ip === `::ffff:${allowedIP}` || ip === allowedIP2 || ip === `::ffff:${allowedIP2}`) {
     next();
   } else {
-    res.status(403).send('Forbidden: IP not allowed');
+    res.status(403).json({ message: 'Forbidden: IP not allowed', ip: ip });
   }
 }
 
@@ -33,7 +33,7 @@ app.use(ipValidator);
 
 // Test route
 app.get('/', (req, res) => {
-  res.send('Hello from the allowed IP!');
+  res.json({ message: 'Hello from the allowed IP!', ip: req.ip });
 });
 
 // Start server
